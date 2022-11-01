@@ -2,6 +2,7 @@
 
 
 #include "SCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -10,10 +11,16 @@ ASCharacter::ASCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	SpringArmComp = CreateDefaultSubobject<USpringArmComponent>("SpringArmComp");
+	SpringArmComp->bUsePawnControlRotation = true;
 	SpringArmComp->SetupAttachment(RootComponent);
 
 	CameraComp = CreateDefaultSubobject<UCameraComponent>("CameraComp");
 	CameraComp->SetupAttachment(SpringArmComp);	
+
+	//旋转这个不是很理解呀，反正就这样那样的就有效果了，下次具体研究下。
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+
+	bUseControllerRotationYaw = false;
 
 }
 
@@ -37,12 +44,23 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	PlayerInputComponent->BindAxis("MoveForward",this,&ASCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight",this,&ASCharacter::MoveRight);
 
-	PlayerInputComponent->BindAxis("Turn", this, &ASCharacter::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 
 }
 
 void ASCharacter::MoveForward(float Value)
 {
 	AddMovementInput(GetActorForwardVector(), Value);
+}
+
+void ASCharacter::MoveRight(float Value)
+{
+	FRotator Rotate = GetControlRotation();
+	Rotate.Pitch = 0.0f;
+	Rotate.Roll = 0.0f;
+
+	AddMovementInput(Rotate.Vector(), Value);
 }

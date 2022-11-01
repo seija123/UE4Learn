@@ -17,7 +17,6 @@ UCLASS()
 class UE4LEARN_API ASCharacter : public ACharacter
 {
 	GENERATED_BODY()
-
 public:
 	// Sets default values for this character's properties
 	ASCharacter();
@@ -33,6 +32,8 @@ protected:
 	USpringArmComponent* SpringArmComp;
 
 	void MoveForward(float Value);
+
+	void MoveRight(float Value);
 
 public:	
 	// Called every frame
