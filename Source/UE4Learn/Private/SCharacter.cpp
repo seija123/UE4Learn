@@ -11,15 +11,17 @@ ASCharacter::ASCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	SpringArmComp = CreateDefaultSubobject<USpringArmComponent>("SpringArmComp");
+	//弹簧臂使用控制器的旋转。如果为false的话只会使用相对位置。
 	SpringArmComp->bUsePawnControlRotation = true;
 	SpringArmComp->SetupAttachment(RootComponent);
 
 	CameraComp = CreateDefaultSubobject<UCameraComponent>("CameraComp");
 	CameraComp->SetupAttachment(SpringArmComp);	
 
-	//旋转这个不是很理解呀，反正就这样那样的就有效果了，下次具体研究下。
+	//使用移动组件的旋转。
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-
+	
+	//不使用控制器的旋转Yaw，数值轴。
 	bUseControllerRotationYaw = false;
 
 }
@@ -35,7 +37,17 @@ void ASCharacter::BeginPlay()
 void ASCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	/*
+	FRotator Rot = GetControlRotation();
+	TCHAR RotTcharArray[100];
+	FString RotStr = Rot.ToString();
+	for (size_t i = 0; i < RotStr.Len(); i++)
+	{
+		RotTcharArray[i] = RotStr[i];
+	}
 
+	UE_LOG(LogTemp, Warning, RotTcharArray);
+	*/
 }
 
 // Called to bind functionality to input
@@ -46,6 +58,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("MoveForward",this,&ASCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight",this,&ASCharacter::MoveRight);
 
+	//控制器的水平和竖直。
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 
@@ -53,14 +66,25 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void ASCharacter::MoveForward(float Value)
 {
-	AddMovementInput(GetActorForwardVector(), Value);
-}
-
-void ASCharacter::MoveRight(float Value)
-{
 	FRotator Rotate = GetControlRotation();
 	Rotate.Pitch = 0.0f;
 	Rotate.Roll = 0.0f;
 
-	AddMovementInput(Rotate.Vector(), Value);
+	FVector ForwardVector = FRotationMatrix(Rotate).GetScaledAxis(EAxis::X);
+	
+	AddMovementInput(ForwardVector, Value);
+}
+
+void ASCharacter::MoveRight(float Value)
+{
+	//只需要控制器的水平方向旋转轴。
+	FRotator Rotate = GetControlRotation();
+	Rotate.Pitch = 0.0f;
+	Rotate.Roll = 0.0f;
+	
+	//根据旋转获取坐标相应轴的方向向量，方式。Rotate.Vector()可以直接获取向前的向量，也就是X轴的向量。
+	FVector RightVector = FRotationMatrix(Rotate).GetScaledAxis(EAxis::Y);
+
+
+	AddMovementInput(RightVector, Value);
 }
