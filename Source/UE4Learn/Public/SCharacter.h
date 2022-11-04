@@ -22,6 +22,10 @@ public:
 	ASCharacter();
 
 protected:
+	//TSubclassOf 应该是需要使用到多态特性的时候，必然要用到的类型。以后需要用某某子类的时候就必然用这个，至于为啥俺也不知道，所以记住。
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> ProjectileClass;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
@@ -34,6 +38,8 @@ protected:
 	void MoveForward(float Value);
 
 	void MoveRight(float Value);
+
+	void PrimaryAttack();
 
 public:	
 	// Called every frame
