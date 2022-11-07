@@ -12,6 +12,7 @@
 
 class UCameraComponent;
 class USpringArmComponent;
+class USInteractionComponent;
 
 UCLASS()
 class UE4LEARN_API ASCharacter : public ACharacter
@@ -34,12 +35,16 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComp;
+	UPROPERTY(VisibleAnywhere)
+	USInteractionComponent* InteractionComponent;
 
 	void MoveForward(float Value);
 
 	void MoveRight(float Value);
 
 	void PrimaryAttack();
+
+	void PrimaryInteract();
 
 public:	
 	// Called every frame

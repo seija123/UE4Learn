@@ -4,10 +4,6 @@
 #include "SItemChest.h"
 #include "Components/StaticMeshComponent.h"
 
-void ASItemChest::Interact_Implementation(APawn* InstigatorPawn)
-{
-}
-
 // Sets default values
 ASItemChest::ASItemChest()
 {
@@ -15,7 +11,10 @@ ASItemChest::ASItemChest()
 	PrimaryActorTick.bCanEverTick = true;
 
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>("BaseMesh");
+	RootComponent = BaseMesh;
+
 	LidMesh = CreateDefaultSubobject<UStaticMeshComponent>("LidMesh");
+	LidMesh->SetupAttachment(BaseMesh);
 
 }
 
@@ -31,5 +30,11 @@ void ASItemChest::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+
+void ASItemChest::Interact_Implementation(APawn* InstigatorPawn)
+{
+	LidMesh->SetRelativeRotation(FRotator(TargetPitch, 0, 0));
 }
 
