@@ -13,6 +13,7 @@
 class UCameraComponent;
 class USpringArmComponent;
 class USInteractionComponent;
+class UAnimMontage;
 
 UCLASS()
 class UE4LEARN_API ASCharacter : public ACharacter
@@ -38,12 +39,19 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	USInteractionComponent* InteractionComponent;
 
+	UPROPERTY(EditAnywhere)
+	UAnimMontage* PrimaryAttackAnim;
+
+	FTimerHandle PrimaryAttackDelayHandle;
+
 	void MoveForward(float Value);
 
 	void MoveRight(float Value);
 
 	void PrimaryAttack();
 
+	void PrimaryAttackDelay();
+	
 	void PrimaryInteract();
 
 public:	

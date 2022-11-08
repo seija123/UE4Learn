@@ -55,6 +55,9 @@ void USInteractionComponent::PrimaryIneract()
 		IIGamePlayInterface::Execute_Interact(Hit.GetActor(), OwerPawn);
 	}
 
-	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 2.0f, 0, 2.0f);
+	FColor LineColor = IsHit ? FColor::Green : FColor::Red;
+	DrawDebugLine(GetWorld(), Start, End, LineColor, false, 2.0f, 0, 2.0f);
+
+	DrawDebugSphere(GetWorld(), Hit.Location, 10, 32, LineColor, false, 2.0f, 0, 2.0f);
 }
 

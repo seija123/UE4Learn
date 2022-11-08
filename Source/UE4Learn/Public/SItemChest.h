@@ -14,7 +14,6 @@ class UE4LEARN_API ASItemChest : public AActor, public IIGamePlayInterface
 	GENERATED_BODY()
 
 public:
-
 	void Interact_Implementation(APawn* InstigatorPawn);
 
 public:	
@@ -22,7 +21,7 @@ public:
 	ASItemChest();
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* BaseMesh;
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* LidMesh;
 
 	UPROPERTY(VisibleAnyWhere)

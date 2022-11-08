@@ -4,6 +4,7 @@
 #include "SCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "SInteractionComponent.h"
+#include "Animation/AnimMontage.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -40,17 +41,6 @@ void ASCharacter::BeginPlay()
 void ASCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	/*
-	FRotator Rot = GetControlRotation();
-	TCHAR RotTcharArray[100];
-	FString RotStr = Rot.ToString();
-	for (size_t i = 0; i < RotStr.Len(); i++)
-	{
-		RotTcharArray[i] = RotStr[i];
-	}
-
-	UE_LOG(LogTemp, Warning, RotTcharArray);
-	*/
 }
 
 // Called to bind functionality to input
@@ -98,11 +88,21 @@ void ASCharacter::MoveRight(float Value)
 
 void ASCharacter::PrimaryAttack()
 {
+	//UE_LOG(LogTemp, Warning, TEXT("AHAHAHA"));
+	PlayAnimMontage(PrimaryAttackAnim);
+
+	GetWorldTimerManager().SetTimer(PrimaryAttackDelayHandle, this, &ASCharacter::PrimaryAttackDelay, 0.2f);	
+	//GetWorldTimerManager().ClearTimer(PrimaryAttackDelayHandle);
+}
+
+void ASCharacter::PrimaryAttackDelay()
+{
 	FVector Location = GetMesh()->GetSocketLocation("Muzzle_02");
 
 	FTransform ActorTM = FTransform(GetActorRotation(), Location);
 	FActorSpawnParameters SpawnParam;
 	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParam.Instigator = this;
 
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, ActorTM, SpawnParam);
 }
