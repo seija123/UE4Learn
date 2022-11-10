@@ -14,6 +14,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class USInteractionComponent;
 class UAnimMontage;
+class ABlackHole;
 
 UCLASS()
 class UE4LEARN_API ASCharacter : public ACharacter
@@ -27,6 +28,9 @@ protected:
 	//TSubclassOf 应该是需要使用到多态特性的时候，必然要用到的类型。以后需要用某某子类的时候就必然用这个，至于为啥俺也不知道，所以记住。
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> ProjectileClass;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> BlackHoleClass;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -44,6 +48,8 @@ protected:
 
 	FTimerHandle PrimaryAttackDelayHandle;
 
+	FTimerHandle BlackHoleAttackTimer;
+
 	void MoveForward(float Value);
 
 	void MoveRight(float Value);
@@ -51,6 +57,9 @@ protected:
 	void PrimaryAttack();
 
 	void PrimaryAttackDelay();
+
+	void BlackHoleAttack();
+	void BlackHoleAttackDelay();
 	
 	void PrimaryInteract();
 
