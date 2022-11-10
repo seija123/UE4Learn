@@ -5,6 +5,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "SInteractionComponent.h"
 #include "Animation/AnimMontage.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -99,7 +100,25 @@ void ASCharacter::PrimaryAttackDelay()
 {
 	FVector Location = GetMesh()->GetSocketLocation("Muzzle_02");
 
-	FTransform ActorTM = FTransform(GetActorRotation(), Location);
+	FVector CameraLocation = CameraComp->K2_GetComponentLocation();
+	FVector LineEnd = CameraLocation + CameraComp->GetForwardVector()* 1000;
+
+	FHitResult HitResult;
+	FCollisionObjectQueryParams CollisionQueryParams;
+	CollisionQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
+	bool IsHit = GetWorld()->LineTraceSingleByObjectType(HitResult, CameraLocation, LineEnd, CollisionQueryParams);
+
+	if (!ensure(IsHit))
+	{
+		UE_LOG(LogTemp, Log, TEXT("Not Hit!!!"));
+	}
+
+	FVector TargetLoc = IsHit ? HitResult.Location : LineEnd;
+	 
+	FRotator Rot;
+	Rot = UKismetMathLibrary::FindLookAtRotation(Location, TargetLoc);
+
+	FTransform ActorTM = FTransform(Rot, Location);
 	FActorSpawnParameters SpawnParam;
 	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParam.Instigator = this;

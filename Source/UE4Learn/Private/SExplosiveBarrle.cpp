@@ -60,8 +60,8 @@ void ASExplosiveBarrle::OnHit(UPrimitiveComponent* HitComp, AActor* Other, UPrim
 
 	UE_LOG(LogTemp, Warning, TEXT("Log_Temp Warning %s, at game time %f"), *GetNameSafe(Other), GetWorld()->TimeSeconds);
 
-	FString CombinedString = FString::Printf(TEXT(" Hit Point Is %s"),Hit.Location.ToString());
-	DrawDebugString(GetWorld(), Hit.Location, *CombinedString);
+	//FString CombinedString = *FString::Printf(TEXT(" Hit Point Is %s"),Hit.Location.ToString());
+	//DrawDebugString(GetWorld(), Hit.Location, *CombinedString);
 	//https://nerivec.github.io/old-ue4-wiki/pages/logs-printing-messages-to-yourself-during-runtime.html
 	//忘记了跑来康康，几种log方式。
 }
