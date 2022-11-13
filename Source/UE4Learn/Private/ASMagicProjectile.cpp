@@ -5,6 +5,7 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "SAttributeComponent.h"
 
 
 // Sets default values
@@ -24,7 +25,7 @@ AASMagicProjectile::AASMagicProjectile()
 	MovementComp->bRotationFollowsVelocity = true;
 	MovementComp->bInitialVelocityInLocalSpace = true;
 	
-
+	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AASMagicProjectile::OnBegineOverlap);
 }
 
 // Called when the game starts or when spawned
@@ -32,6 +33,16 @@ void AASMagicProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void AASMagicProjectile::OnBegineOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor)
+	{
+		UE_LOG(LogTemp, Log, TEXT("!!!!"));
+		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+		AttributeComp->ApplyHealthModify(-20.0f);
+	}
 }
 
 // Called every frame

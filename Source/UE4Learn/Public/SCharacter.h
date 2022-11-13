@@ -32,6 +32,11 @@ protected:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> BlackHoleClass;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> GodFlashTargetClass;
+
+	AActor* GodFlashTarget;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
@@ -50,6 +55,8 @@ protected:
 
 	FTimerHandle BlackHoleAttackTimer;
 
+	FTimerHandle GodFlashTimer;
+
 	void MoveForward(float Value);
 
 	void MoveRight(float Value);
@@ -62,6 +69,12 @@ protected:
 	void BlackHoleAttackDelay();
 	
 	void PrimaryInteract();
+
+	void GodFlash();
+	void DelayGodFlash();
+	void DelayGodFlashTeleport();
+
+	FTransform GetPrimaryAttackTramsform();
 
 public:	
 	// Called every frame

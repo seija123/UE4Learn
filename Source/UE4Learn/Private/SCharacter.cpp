@@ -62,6 +62,8 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	PlayerInputComponent->BindAction("BlackHoleAttack", IE_Pressed, this, &ASCharacter::BlackHoleAttack);
 
+	PlayerInputComponent->BindAction("GodFlash", IE_Pressed, this, &ASCharacter::GodFlash);
+
 }
 
 void ASCharacter::MoveForward(float Value)
@@ -100,27 +102,8 @@ void ASCharacter::PrimaryAttack()
 
 void ASCharacter::PrimaryAttackDelay()
 {
-	FVector Location = GetMesh()->GetSocketLocation("Muzzle_02");
-
-	FVector CameraLocation = CameraComp->K2_GetComponentLocation();
-	FVector LineEnd = CameraLocation + CameraComp->GetForwardVector()* 1000;
-
-	FHitResult HitResult;
-	FCollisionObjectQueryParams CollisionQueryParams;
-	CollisionQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
-	bool IsHit = GetWorld()->LineTraceSingleByObjectType(HitResult, CameraLocation, LineEnd, CollisionQueryParams);
-
-	/*if (!ensure(IsHit))
-	{
-		UE_LOG(LogTemp, Log, TEXT("Not Hit!!!"));
-	}*/
-
-	FVector TargetLoc = IsHit ? HitResult.Location : LineEnd;
-	 
-	FRotator Rot;
-	Rot = UKismetMathLibrary::FindLookAtRotation(Location, TargetLoc);
-
-	FTransform ActorTM = FTransform(Rot, Location);
+	
+	FTransform ActorTM = GetPrimaryAttackTramsform();
 	FActorSpawnParameters SpawnParam;
 	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParam.Instigator = this;
@@ -136,7 +119,7 @@ void ASCharacter::BlackHoleAttack()
 	GetWorldTimerManager().SetTimer(BlackHoleAttackTimer, this, &ASCharacter::BlackHoleAttackDelay, 0.2f);
 }
 
-void ASCharacter::BlackHoleAttackDelay()
+FTransform ASCharacter::GetPrimaryAttackTramsform()
 {
 	FVector Location = GetMesh()->GetSocketLocation("Muzzle_02");
 
@@ -159,6 +142,16 @@ void ASCharacter::BlackHoleAttackDelay()
 	Rot = UKismetMathLibrary::FindLookAtRotation(Location, TargetLoc);
 
 	FTransform ActorTM = FTransform(Rot, Location);
+
+	return ActorTM;
+
+}
+
+void ASCharacter::BlackHoleAttackDelay()
+{
+	
+	auto ActorTM = GetPrimaryAttackTramsform();
+
 	FActorSpawnParameters SpawnParam;
 	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParam.Instigator = this;
@@ -174,3 +167,28 @@ void ASCharacter::PrimaryInteract()
 }
 
 
+void ASCharacter::GodFlash()
+{
+
+	PlayAnimMontage(PrimaryAttackAnim);
+
+	GetWorldTimerManager().SetTimer(GodFlashTimer, this, &ASCharacter::DelayGodFlash, 0.2f);
+}
+
+void ASCharacter::DelayGodFlash()
+{
+	auto ActorTM = GetPrimaryAttackTramsform();
+
+	FActorSpawnParameters SpawnParam;
+	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParam.Instigator = this;
+
+	GodFlashTarget = GetWorld()->SpawnActor<AActor>(GodFlashTargetClass, ActorTM, SpawnParam);
+	GetWorldTimerManager().SetTimer(GodFlashTimer, this, &ASCharacter::DelayGodFlashTeleport, 1.0f);
+}
+
+void ASCharacter::DelayGodFlashTeleport()
+{
+	SetActorLocation(GodFlashTarget->GetActorLocation());
+	GodFlashTarget->Destroy();
+}
