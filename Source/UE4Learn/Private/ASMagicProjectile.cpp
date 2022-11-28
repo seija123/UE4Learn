@@ -37,11 +37,22 @@ void AASMagicProjectile::BeginPlay()
 
 void AASMagicProjectile::OnBegineOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor)
+	if (IsPendingKill())
+	{
+		return;
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("haha"));
+	if (OtherActor && OtherActor != GetInstigator())
 	{
 		UE_LOG(LogTemp, Log, TEXT("!!!!"));
 		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
-		AttributeComp->ApplyHealthModify(-20.0f);
+		if (AttributeComp != nullptr)
+		{
+			AttributeComp->ApplyHealthModify(-20.0f);
+		}
+		
+		Destroy();
 	}
 }
 

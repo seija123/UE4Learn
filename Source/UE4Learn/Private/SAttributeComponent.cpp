@@ -22,7 +22,15 @@ void USAttributeComponent::BeginPlay()
 bool USAttributeComponent::ApplyHealthModify(float Delta)
 {
 	Health += Delta;
+
+	OnHealthChanged.Broadcast(NULL, this, Health, Delta);
+
 	return true;
+}
+
+bool USAttributeComponent::IsAlive() const
+{
+	return Health > 0.0f;
 }
 
 

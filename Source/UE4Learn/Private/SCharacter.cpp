@@ -44,6 +44,11 @@ void ASCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void ASCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+}
+
 // Called to bind functionality to input
 void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
