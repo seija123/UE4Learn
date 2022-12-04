@@ -19,6 +19,8 @@ void ASMyAIController::BeginPlay()
 		MyBlackBoard->SetValueAsVector("Target", Player1->GetActorLocation());
 
 		MyBlackBoard->SetValueAsObject("TargetActor", Player1);
+
+		
 	}
 	
 }
