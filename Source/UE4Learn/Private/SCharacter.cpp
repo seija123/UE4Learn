@@ -71,6 +71,29 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 }
 
+
+//GameplayTag系统，CheckGameplayTasOnActor的行为树节点必须要用的东西。
+void ASCharacter::GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const
+{
+	TagContainer = GameplayTagList;
+}
+
+bool ASCharacter::HasMatchingGameplayTag(FGameplayTag TagToCheck) const
+{
+
+	return GameplayTagList.HasTag(TagToCheck);
+}
+
+bool ASCharacter::HasAllMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const
+{
+	return GameplayTagList.HasAll(TagContainer);
+}
+
+bool ASCharacter::HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const
+{
+	return GameplayTagList.HasAny(TagContainer);
+}
+
 void ASCharacter::MoveForward(float Value)
 {
 	FRotator Rotate = GetControlRotation();

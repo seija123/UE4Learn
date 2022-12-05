@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameplayTagAssetInterface.h"
+#include "GameplayTagContainer.h"
 
 #include "SCharacter.generated.h"
 
@@ -17,7 +19,7 @@ class UAnimMontage;
 class ABlackHole;
 
 UCLASS()
-class UE4LEARN_API ASCharacter : public ACharacter
+class UE4LEARN_API ASCharacter : public ACharacter, public IGameplayTagAssetInterface
 {
 	GENERATED_BODY()
 public:
@@ -50,6 +52,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	UAnimMontage* PrimaryAttackAnim;
+
+	UPROPERTY(EditAnyWhere)
+	FGameplayTagContainer GameplayTagList;
 
 	FTimerHandle PrimaryAttackDelayHandle;
 
@@ -84,5 +89,18 @@ public:
 
 	// Called to bind functionality to input
 	void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent);
+
+	UFUNCTION(BlueprintCallable, Category = GameplayTags)
+	// Í¨¹ý IGameplayTagAssetInterface ¼Ì³Ð
+	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
+
+	UFUNCTION(BlueprintCallable, Category = GameplayTags)
+	virtual bool HasMatchingGameplayTag(FGameplayTag TagToCheck) const override;
+
+	UFUNCTION(BlueprintCallable, Category = GameplayTags)
+	virtual bool HasAllMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
+
+	UFUNCTION(BlueprintCallable, Category = GameplayTags)
+	virtual bool HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
 
 };
