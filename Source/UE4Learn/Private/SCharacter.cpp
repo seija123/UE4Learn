@@ -6,6 +6,7 @@
 #include "SInteractionComponent.h"
 #include "Animation/AnimMontage.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "SAttributeComponent.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -23,6 +24,8 @@ ASCharacter::ASCharacter()
 
 	InteractionComponent = CreateDefaultSubobject<USInteractionComponent>("InteractionComponent");
 
+	//Attribute = CreateDefaultSubobject<USAttributeComponent>("Attribute");
+
 	//使用移动组件的旋转。
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
@@ -36,7 +39,18 @@ void ASCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//Attribute->OnHealthChanged.AddDynamic(this, &ASCharacter::OnHealthChanged);
 }
+
+void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta)
+{
+	if (NewHealth)
+	{
+		UE_LOG(LogTemp, Log, TEXT("OnHealthChanged !!!"));
+	}
+
+}
+
 
 // Called every frame
 void ASCharacter::Tick(float DeltaTime)

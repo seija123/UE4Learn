@@ -20,7 +20,7 @@ protected:
 
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
 	UBehaviorTree* BehaviorTree;
 	
 };

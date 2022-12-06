@@ -8,15 +8,14 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameplayTagAssetInterface.h"
 #include "GameplayTagContainer.h"
-
 #include "SCharacter.generated.h"
-
 
 class UCameraComponent;
 class USpringArmComponent;
 class USInteractionComponent;
 class UAnimMontage;
 class ABlackHole;
+class USAttributeComponent;
 
 UCLASS()
 class UE4LEARN_API ASCharacter : public ACharacter, public IGameplayTagAssetInterface
@@ -56,6 +55,9 @@ protected:
 	UPROPERTY(EditAnyWhere)
 	FGameplayTagContainer GameplayTagList;
 
+	//UPROPERTY(EditAnyWhere, BlueprintReadWrite)
+	//USAttributeComponent* Attribute;
+
 	FTimerHandle PrimaryAttackDelayHandle;
 
 	FTimerHandle BlackHoleAttackTimer;
@@ -78,6 +80,8 @@ protected:
 	void GodFlash();
 	void DelayGodFlash();
 	void DelayGodFlashTeleport();
+
+	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);
 
 	FTransform GetPrimaryAttackTramsform();
 

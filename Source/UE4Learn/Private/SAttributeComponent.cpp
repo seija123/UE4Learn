@@ -2,6 +2,7 @@
 
 
 #include "SAttributeComponent.h"
+#include "GameFramework/Character.h"
 
 // Sets default values for this component's properties
 USAttributeComponent::USAttributeComponent()
@@ -24,6 +25,19 @@ bool USAttributeComponent::ApplyHealthModify(float Delta)
 	Health += Delta;
 
 	OnHealthChanged.Broadcast(NULL, this, Health, Delta);
+
+	if (Health <= 0)
+	{
+		APawn* Pawn = Cast<APawn>(GetOwner());
+		if (Pawn != nullptr)
+		{
+			if (Pawn->Controller != nullptr)
+			{
+				Pawn->Controller->UnPossess();
+			}
+				
+		}
+	}
 
 	return true;
 }

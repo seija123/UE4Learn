@@ -20,6 +20,9 @@ void ASMyAIController::BeginPlay()
 
 		MyBlackBoard->SetValueAsObject("TargetActor", Player1);
 
+		MyBlackBoard->SetValueAsString("TestCompareBBEntriesDecorator1", "haha");
+		MyBlackBoard->SetValueAsString("TestCompareBBEntriesDecorator2", "haha");
+
 		
 	}
 	
