@@ -15,13 +15,13 @@ void ASMyAIController::BeginPlay()
 	UBlackboardComponent* MyBlackBoard = GetBlackboardComponent();
 	if (MyBlackBoard != nullptr)
 	{
-		APawn* Player1 = UGameplayStatics::GetPlayerPawn(this, 0);
-		MyBlackBoard->SetValueAsVector("Target", Player1->GetActorLocation());
+		//APawn* Player1 = UGameplayStatics::GetPlayerPawn(this, 0);
+		//MyBlackBoard->SetValueAsVector("Target", Player1->GetActorLocation());
 
-		MyBlackBoard->SetValueAsObject("TargetActor", Player1);
+		//MyBlackBoard->SetValueAsObject("TargetActor", Player1);
 
-		MyBlackBoard->SetValueAsString("TestCompareBBEntriesDecorator1", "haha");
-		MyBlackBoard->SetValueAsString("TestCompareBBEntriesDecorator2", "haha");
+		//MyBlackBoard->SetValueAsString("TestCompareBBEntriesDecorator1", "haha");
+		//MyBlackBoard->SetValueAsString("TestCompareBBEntriesDecorator2", "haha");
 
 		
 	}
