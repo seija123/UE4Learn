@@ -15,6 +15,11 @@ void UUSBTService_CheckAttackRange::TickNode(UBehaviorTreeComponent& OwnerComp, 
 	{
 		AActor* TargetActor = Cast<AActor>(BlackboardComp->GetValueAsObject("TargetActor"));
 
+		if (TargetActor == nullptr)
+		{
+			return;
+		}
+
 		AAIController* AIController = OwnerComp.GetAIOwner();
 
 		APawn* AIPawn = AIController->GetPawn();
