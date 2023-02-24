@@ -10,7 +10,6 @@ USAttributeComponent::USAttributeComponent()
 
 }
 
-
 // Called when the game startss
 void USAttributeComponent::BeginPlay()
 {
@@ -20,24 +19,11 @@ void USAttributeComponent::BeginPlay()
 	
 }
 
-bool USAttributeComponent::ApplyHealthModify(float Delta)
+bool USAttributeComponent::ApplyHealthModify(AActor* Instigator, float Delta)
 {
 	Health += Delta;
 
-	OnHealthChanged.Broadcast(NULL, this, Health, Delta);
-
-	if (Health <= 0)
-	{
-		APawn* Pawn = Cast<APawn>(GetOwner());
-		if (Pawn != nullptr)
-		{
-			if (Pawn->Controller != nullptr)
-			{
-				Pawn->Controller->UnPossess();
-			}
-				
-		}
-	}
+	OnHealthChanged.Broadcast(Instigator, this, Health, Delta);
 
 	return true;
 }
@@ -47,4 +33,20 @@ bool USAttributeComponent::IsAlive() const
 	return Health > 0.0f;
 }
 
+USAttributeComponent* USAttributeComponent::GetAttributeFromActor(AActor* FromActor)
+{
+	return Cast<USAttributeComponent>(FromActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+}
+
+bool USAttributeComponent::IsActorAlive(AActor* FromActor)
+{
+	USAttributeComponent* Attributes = Cast<USAttributeComponent>(FromActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+
+	if (Attributes)
+	{
+		return Attributes->IsAlive();
+	}
+
+	return false;
+}
 

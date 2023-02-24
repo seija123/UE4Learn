@@ -9,6 +9,7 @@
 
 class UEnvQuery;
 class UEnvQueryInstanceBlueprintWrapper;
+class UCurveFloat;
 /**
  * 
  */
@@ -29,7 +30,7 @@ protected:
 	float SpawnTimerInterval;
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
-	int MaxBot;
+	UCurveFloat* DifficultyCurve;
 
 	FTimerHandle EQSSpawnDotTimerHandle;
 

@@ -7,6 +7,7 @@
 #include "AI/SAICharacter.h"
 #include "EngineUtils.h"
 #include "SAttributeComponent.h"
+#include "Curves/CurveFloat.h"
 
 
 ASGameModeBase::ASGameModeBase()
@@ -24,6 +25,31 @@ void ASGameModeBase::StartPlay()
 
 void ASGameModeBase::SpawnDotTimerElapsed()
 {
+	int NumOfAliveBots = 0;
+	for (TActorIterator<ASAICharacter> It(GetWorld()); It; ++It)
+	{
+		ASAICharacter* Bot = *It;
+		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(Bot->GetComponentByClass(USAttributeComponent::StaticClass()));
+
+		if (AttributeComp && AttributeComp->IsAlive())
+		{
+			NumOfAliveBots++;
+		}
+	}
+
+	int MaxCount = 10;
+
+	if (DifficultyCurve)
+	{
+		MaxCount = DifficultyCurve->GetFloatValue(GetWorld()->TimeSeconds);
+	}
+
+	if (NumOfAliveBots >= MaxCount)
+	{
+		return;
+	}
+
+
 	UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(this, SpawnDotQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr );
 
 	if (ensure(QueryInstance))
@@ -38,23 +64,6 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Spawn Dot EQS Query Failed !"));
 		return; 
-	}
-
-	int NumOfAliveBots = 0;
-	for (TActorIterator<ASAICharacter> It(GetWorld()); It; It++)
-	{
-		ASAICharacter* Bot = *It;
-		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(Bot->GetComponentByClass(USAttributeComponent::StaticClass()));
-
-		if (AttributeComp && AttributeComp->IsAlive())
-		{
-			NumOfAliveBots++;
-		}
-	}
-
-	if (NumOfAliveBots >= MaxBot)
-	{
-		return;
 	}
 
 	TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();

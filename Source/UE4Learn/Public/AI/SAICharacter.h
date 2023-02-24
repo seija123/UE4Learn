@@ -7,6 +7,7 @@
 #include "SAICharacter.generated.h"
 
 class UPawnSensingComponent;
+class USAttributeComponent;
 
 UCLASS()
 class UE4LEARN_API ASAICharacter : public ACharacter
@@ -20,10 +21,20 @@ public:
 	UPROPERTY(EditAnywhere, Category = "AI")
 	UPawnSensingComponent* PawnSensingComponent;
 
+	UPROPERTY(EditAnywhere, Category = "Attribute")
+	USAttributeComponent* AttributeComponent;
+
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	FName TimeToHitParamName;
+
 	virtual void PostInitializeComponents() override;
 
 	//监听ue4委托必须要加UFUNCTION
 	UFUNCTION()
 	void OnSeePawn(APawn* Pawn);
 
+	UFUNCTION()
+	void OnHealthChange(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);
+
+	void SetBlackBoardValueTargetActor(AActor* TargetActor);
 };

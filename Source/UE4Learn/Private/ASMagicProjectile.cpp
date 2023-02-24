@@ -28,12 +28,6 @@ AASMagicProjectile::AASMagicProjectile()
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AASMagicProjectile::OnBegineOverlap);
 }
 
-// Called when the game starts or when spawned
-void AASMagicProjectile::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
 
 void AASMagicProjectile::OnBegineOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
@@ -42,24 +36,16 @@ void AASMagicProjectile::OnBegineOverlap(UPrimitiveComponent* OverlappedComponen
 		return;
 	}
 
-	UE_LOG(LogTemp, Log, TEXT("haha"));
 	if (OtherActor && OtherActor != GetInstigator())
 	{
-		UE_LOG(LogTemp, Log, TEXT("!!!!"));
 		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
 		if (AttributeComp != nullptr)
 		{
-			AttributeComp->ApplyHealthModify(-20.0f);
+			AttributeComp->ApplyHealthModify(GetInstigator(), -20.0f);
 		}
 		
 		Destroy();
 	}
 }
 
-// Called every frame
-void AASMagicProjectile::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
 

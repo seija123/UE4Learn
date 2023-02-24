@@ -5,6 +5,13 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "AIController.h"
 #include "GameFramework/Character.h"
+#include "SAttributeComponent.h"
+
+
+UBTTaskNode_RangeAttack::UBTTaskNode_RangeAttack()
+{
+	MaxBulletSpeard = 10.f;
+}
 
 EBTNodeResult::Type UBTTaskNode_RangeAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
@@ -21,15 +28,19 @@ EBTNodeResult::Type UBTTaskNode_RangeAttack::ExecuteTask(UBehaviorTreeComponent&
 
 		AActor* TargetActor = Cast<AActor>(OwnerComp.GetBlackboardComponent()->GetValueAsObject("TargetActor"));
 
-		if (TargetActor == nullptr)
+		if (TargetActor == nullptr || !USAttributeComponent::IsActorAlive(TargetActor))
 		{
 			return EBTNodeResult::Failed;
 		}
 
-		FVector Direction = TargetActor->GetActorLocation() - AIPawn->GetActorLocation();
-		FRotator SpawnRotation = Direction.Rotation();
 
 		FVector SpawnLocation = AIPawn->GetMesh()->GetSocketLocation("Muzzle_02");
+
+		FVector Direction = SpawnLocation - AIPawn->GetActorLocation();
+		FRotator SpawnRotation = Direction.Rotation();
+
+		SpawnRotation.Yaw = FMath::RandRange(0.f , MaxBulletSpeard);
+		SpawnRotation.Pitch = FMath::RandRange(-MaxBulletSpeard, MaxBulletSpeard);
 
 		FActorSpawnParameters SpawnParam;
 		SpawnParam.Instigator = AIPawn;

@@ -17,10 +17,16 @@ public:
 	// Sets default values for this component's properties
 	USAttributeComponent();
 
+	UFUNCTION(BlueprintCallable, Category = "Attribute", meta = (DisplayName = "GetAttribute"))
+	static USAttributeComponent* GetAttributeFromActor(AActor* FromActor);
+
+	UFUNCTION(BlueprintCallable, Category = "Attribute", meta = (DisplayName = "IsAlive"))
+	static bool IsActorAlive(AActor* FromActor);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
+	 
 	UPROPERTY(EditDefaultsOnly ,BlueprintReadOnly)
 	float Health = 100.0f;
 
@@ -29,7 +35,7 @@ public:
 	FOnHealthChanged OnHealthChanged;
 
 	UFUNCTION(BlueprintCallable)
-	bool ApplyHealthModify(float Delta);
+	bool ApplyHealthModify(AActor* Instigator, float Delta);
 
 	UFUNCTION(BlueprintCallable)
 	bool IsAlive() const;
