@@ -8,6 +8,8 @@
 
 class UPawnSensingComponent;
 class USAttributeComponent;
+class UUserWidget;
+class USWorldUserWidget;
 
 UCLASS()
 class UE4LEARN_API ASAICharacter : public ACharacter
@@ -26,6 +28,13 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Effects")
 	FName TimeToHitParamName;
+
+	UPROPERTY()
+	USWorldUserWidget* HealthUI;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<UUserWidget> WidgetClass;
+	
 
 	virtual void PostInitializeComponents() override;
 

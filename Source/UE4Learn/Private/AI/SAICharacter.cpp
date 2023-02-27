@@ -8,6 +8,8 @@
 #include "DrawDebugHelpers.h"
 #include "SAttributeComponent.h"
 #include "BrainComponent.h"
+#include "Blueprint/UserWidget.h"
+#include "SWorldUserWidget.h"
 
 
 // Sets default values
@@ -28,6 +30,13 @@ void ASAICharacter::PostInitializeComponents()
 	PawnSensingComponent->OnSeePawn.AddDynamic(this, &ASAICharacter::OnSeePawn);
 
 	AttributeComponent->OnHealthChanged.AddDynamic(this, &ASAICharacter::OnHealthChange);
+
+	HealthUI = CreateWidget<USWorldUserWidget>(GetWorld(), WidgetClass);
+	if (HealthUI)
+	{
+		HealthUI->AttachedActor = this;
+		HealthUI->AddToViewport();
+	}
 
 }
 

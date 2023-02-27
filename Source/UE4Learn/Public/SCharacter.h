@@ -107,4 +107,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = GameplayTags)
 	virtual bool HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
 
+	UFUNCTION(Exec)
+	void HealSelf(float Amount = 100.f);
+
 };

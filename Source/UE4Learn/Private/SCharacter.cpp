@@ -108,6 +108,13 @@ bool ASCharacter::HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagCon
 	return GameplayTagList.HasAny(TagContainer);
 }
 
+void ASCharacter::HealSelf(float Amount /* = 100 */)
+{
+	USAttributeComponent* MyAttribute = Cast<USAttributeComponent>(GetComponentByClass(USAttributeComponent::StaticClass()));
+
+	MyAttribute->ApplyHealthModify(this, Amount);
+}
+
 void ASCharacter::MoveForward(float Value)
 {
 	FRotator Rotate = GetControlRotation();
