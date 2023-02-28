@@ -46,4 +46,10 @@ public:
 
 	virtual void StartPlay() override;
 
+	UFUNCTION(BlueprintCallable)
+	virtual void OnActorDie(AActor* Killer, AActor* Victim);
+
+	UFUNCTION()
+	void RespawnPlayDelay(AController* PlayerController);
+
 };

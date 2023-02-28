@@ -21,6 +21,13 @@ void USAttributeComponent::BeginPlay()
 
 bool USAttributeComponent::ApplyHealthModify(AActor* Instigator, float Delta)
 {
+	APawn* Pawn = Cast<APawn>(Instigator);
+
+	if (!Pawn->CanBeDamaged())
+	{
+		return;
+	}
+
 	Health += Delta;
 
 	OnHealthChanged.Broadcast(Instigator, this, Health, Delta);

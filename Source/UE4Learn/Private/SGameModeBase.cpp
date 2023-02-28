@@ -8,7 +8,9 @@
 #include "EngineUtils.h"
 #include "SAttributeComponent.h"
 #include "Curves/CurveFloat.h"
+#include "SCharacter.h"
 
+static TAutoConsoleVariable<bool> IsCanSpawnBot(TEXT("su.CanSpawnBot"), true, TEXT("CanSpawnBot !!!"), ECVF_Cheat);
 
 ASGameModeBase::ASGameModeBase()
 {
@@ -23,8 +25,17 @@ void ASGameModeBase::StartPlay()
 
 }
 
+
+
 void ASGameModeBase::SpawnDotTimerElapsed()
 {
+
+	if (!IsCanSpawnBot.GetValueOnGameThread())
+	{
+		UE_LOG(LogTemp, Log, TEXT("IsCanSpawnBot is false"));
+		return;
+	}
+
 	int NumOfAliveBots = 0;
 	for (TActorIterator<ASAICharacter> It(GetWorld()); It; ++It)
 	{
@@ -71,5 +82,32 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 	if (Locations.IsValidIndex(0))
 	{
 		GetWorld()->SpawnActor<AActor>(MinionClass, Locations[0], FRotator::ZeroRotator);
+	}
+}
+
+
+void ASGameModeBase::OnActorDie(AActor* Killer, AActor* Victim)
+{
+	ASCharacter* Player = Cast<ASCharacter>(Victim);
+	if (Player)
+	{
+		FTimerHandle RespawnPlayerTimer;
+
+		FTimerDelegate RespawnDelegate;
+
+		RespawnDelegate.BindUFunction(this, "RespawnPlayDelay", Player->GetController());
+
+		GetWorld()->GetTimerManager().SetTimer(RespawnPlayerTimer, RespawnDelegate, 2.f, false);
+	}
+
+}
+
+void ASGameModeBase::RespawnPlayDelay(AController* PlayerController)
+{
+	if (PlayerController)
+	{
+		PlayerController->UnPossess();
+
+		RestartPlayer(PlayerController);
 	}
 }

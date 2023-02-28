@@ -39,5 +39,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool IsAlive() const;
+
+	UFUNCTION(BlueprintCallable)
+	inline	float GetHealth() {return Health;};
 		
 };

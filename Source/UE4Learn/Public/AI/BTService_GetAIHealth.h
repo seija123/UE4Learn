@@ -14,4 +14,10 @@ class UE4LEARN_API UBTService_GetAIHealth : public UBTService
 {
 	GENERATED_BODY()
 	
+public:
+	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
+
+	UPROPERTY(EditAnywhere, Category = "AI")
+	FBlackboardKeySelector BlackBoardKey;
+
 };
