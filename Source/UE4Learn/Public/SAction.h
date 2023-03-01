@@ -18,12 +18,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Action")
 	FName ActionName;
 
-	//UFUNCTION(BlueprintNativeEvent, Category = "Action")
+	UFUNCTION(BlueprintNativeEvent, Category = "Action")
 	void StartAction(AActor* Instigator);
 
 	void StartAction_Implementation(AActor* Instigator);
 
-	//UFUNCTION(BlueprintNativeEvent, Category = "Action")
+	UFUNCTION(BlueprintNativeEvent, Category = "Action")
 	void EndAction(AActor* Instigator);
 
 	void EndAction_Implementation(AActor* Instigator);

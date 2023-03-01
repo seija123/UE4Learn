@@ -9,7 +9,7 @@ void USAction::StartAction(AActor* Instigator)
 
 void USAction::StartAction_Implementation(AActor* Instigator)
 {
-	UE_LOG(LogTemp, Log, TEXT("StartAction %s, GetSafeName %s"), this->ActionName, *GetNameSafe(this));
+	//UE_LOG(LogTemp, Log, TEXT("StartAction %s"), *GetNameSafe(this));
 
 }
 
@@ -19,6 +19,6 @@ void USAction::EndAction(AActor* Instigator)
 
 void USAction::EndAction_Implementation(AActor* Instigator)
 {
-	UE_LOG(LogTemp, Log, TEXT("StartAction %s, GetSafeName %s"), this->ActionName, *GetNameSafe(this));
+	//UE_LOG(LogTemp, Log, TEXT("StartAction %s"), *GetNameSafe(this));
 }
 
