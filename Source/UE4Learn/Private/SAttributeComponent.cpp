@@ -25,7 +25,7 @@ bool USAttributeComponent::ApplyHealthModify(AActor* Instigator, float Delta)
 
 	if (!Pawn->CanBeDamaged())
 	{
-		return;
+		return false;
 	}
 
 	Health += Delta;

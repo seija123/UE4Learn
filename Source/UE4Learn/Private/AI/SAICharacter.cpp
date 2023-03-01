@@ -10,6 +10,7 @@
 #include "BrainComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "SWorldUserWidget.h"
+#include "Components/CapsuleComponent.h"
 
 
 // Sets default values
@@ -73,6 +74,8 @@ void ASAICharacter::OnHealthChange(AActor* InstigatorActor, USAttributeComponent
 			//Ragdoll
 			GetMesh()->SetAllBodiesSimulatePhysics(true);
 			GetMesh()->SetCollisionProfileName("Ragdoll");
+
+			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 			//Set lifespan
 			SetLifeSpan(10.0f);
