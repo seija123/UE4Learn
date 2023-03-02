@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "GameplayTags.h"
 #include "ActionComponent.generated.h"
 
 class USAction;
@@ -36,6 +37,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void StopAction(FName ActionName);
+
+	UPROPERTY()
+	FGameplayTagContainer ActiveGameplayTags;
 
 	
 };

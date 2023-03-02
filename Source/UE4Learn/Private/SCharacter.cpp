@@ -7,6 +7,7 @@
 #include "Animation/AnimMontage.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "SAttributeComponent.h"
+#include "ActionComponent.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -25,6 +26,8 @@ ASCharacter::ASCharacter()
 	InteractionComponent = CreateDefaultSubobject<USInteractionComponent>("InteractionComponent");
 
 	//Attribute = CreateDefaultSubobject<USAttributeComponent>("Attribute");
+
+	ActionComponent = CreateDefaultSubobject<UActionComponent>("ActionComponent");
 
 	//使用移动组件的旋转。
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -83,6 +86,9 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	PlayerInputComponent->BindAction("GodFlash", IE_Pressed, this, &ASCharacter::GodFlash);
 
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ASCharacter::StartSprint);
+	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ASCharacter::EndSprint);
+
 }
 
 
@@ -113,6 +119,16 @@ void ASCharacter::HealSelf(float Amount /* = 100 */)
 	USAttributeComponent* MyAttribute = Cast<USAttributeComponent>(GetComponentByClass(USAttributeComponent::StaticClass()));
 
 	MyAttribute->ApplyHealthModify(this, Amount);
+}
+
+void ASCharacter::StartSprint()
+{
+	ActionComponent->StartAction(TEXT("Sprint"));
+}
+
+void ASCharacter::EndSprint()
+{
+	ActionComponent->StopAction(TEXT("Sprint"));
 }
 
 void ASCharacter::MoveForward(float Value)

@@ -3,6 +3,7 @@
 
 #include "ActionComponent.h"
 #include "SAction.h"
+#include "Engine/Engine.h"
 
 UActionComponent::UActionComponent()
 {
@@ -23,6 +24,11 @@ void UActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	FString DebugMessage = GetNameSafe(GetOwner()) + ":" + ActiveGameplayTags.ToStringSimple();
+
+	GEngine->AddOnScreenDebugMessage(-1, 0, FColor::White, DebugMessage );
+
+	
 }
 
 void UActionComponent::AddAction(TSubclassOf<USAction> ActionClass)
@@ -32,7 +38,7 @@ void UActionComponent::AddAction(TSubclassOf<USAction> ActionClass)
 		return;
 	}
 
-	USAction* NewAction = NewObject<USAction>(ActionClass);
+	USAction* NewAction = NewObject<USAction>(this, ActionClass);
 
 	if (ensure(NewAction))
 	{

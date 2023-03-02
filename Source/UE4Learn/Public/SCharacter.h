@@ -16,6 +16,8 @@ class USInteractionComponent;
 class UAnimMontage;
 class ABlackHole;
 class USAttributeComponent;
+class UActionComponent;
+class USAction;
 
 UCLASS()
 class UE4LEARN_API ASCharacter : public ACharacter, public IGameplayTagAssetInterface
@@ -55,8 +57,9 @@ protected:
 	UPROPERTY(EditAnyWhere)
 	FGameplayTagContainer GameplayTagList;
 
-	//UPROPERTY(EditAnyWhere, BlueprintReadWrite)
-	//USAttributeComponent* Attribute;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UActionComponent* ActionComponent;
+
 
 	FTimerHandle PrimaryAttackDelayHandle;
 
@@ -110,4 +113,9 @@ public:
 	UFUNCTION(Exec)
 	void HealSelf(float Amount = 100.f);
 
+	UFUNCTION()
+	void StartSprint();
+
+	UFUNCTION()
+	void EndSprint();
 };
