@@ -57,7 +57,7 @@ protected:
 	UPROPERTY(EditAnyWhere)
 	FGameplayTagContainer GameplayTagList;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UActionComponent* ActionComponent;
 
 
@@ -71,7 +71,13 @@ protected:
 
 	void MoveRight(float Value);
 
+	UFUNCTION(Server, Reliable)
+	void ServerPrimaryAttack();
+
 	void PrimaryAttack();
+
+	UFUNCTION(NetMulticast, UnReliable)
+	void ClientPrimaryAttack();
 
 	void PrimaryAttackDelay();
 

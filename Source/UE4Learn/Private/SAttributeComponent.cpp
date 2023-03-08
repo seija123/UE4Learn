@@ -7,7 +7,7 @@
 // Sets default values for this component's properties
 USAttributeComponent::USAttributeComponent()
 {
-
+	SetIsReplicatedByDefault(true);
 }
 
 // Called when the game startss
@@ -23,16 +23,22 @@ bool USAttributeComponent::ApplyHealthModify(AActor* Instigator, float Delta)
 {
 	APawn* Pawn = Cast<APawn>(Instigator);
 
-	if (!Pawn->CanBeDamaged())
+	if (!IsValid(Pawn)||!Pawn->CanBeDamaged())
 	{
 		return false;
 	}
 
 	Health += Delta;
 
-	OnHealthChanged.Broadcast(Instigator, this, Health, Delta);
+	//OnHealthChanged.Broadcast(Instigator, this, Health, Delta);
+	MulticastOnHealthChange(Instigator, this, Health, Delta);
 
 	return true;
+}
+
+void USAttributeComponent::MulticastOnHealthChange_Implementation(AActor* Instigator, USAttributeComponent* OwningComp, float NewHealth, float Delta)
+{
+	OnHealthChanged.Broadcast(Instigator, OwningComp, NewHealth, Delta);
 }
 
 bool USAttributeComponent::IsAlive() const

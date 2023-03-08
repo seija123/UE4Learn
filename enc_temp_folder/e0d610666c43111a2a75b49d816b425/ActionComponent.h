@@ -22,7 +22,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	UPROPERTY(Replicated)
+	UPROPERTY()
 	TArray<USAction*> Actions;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
@@ -35,16 +35,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void AddAction(TSubclassOf<USAction> Action);
 
-	UFUNCTION(Server, Reliable, BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 	virtual void StartAction(FName ActionName);
 
-	UFUNCTION(Server, Reliable, BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 	virtual void StopAction(FName ActionName);
 
 	UPROPERTY(BlueprintReadWrite)
 	FGameplayTagContainer ActiveGameplayTags;
 
-	bool ReplicateSubobjects(class UActorChannel* Channel, class FOutBunch* Bunch, FReplicationFlags* RepFlags) override;
-
-	void GetLifetimeReplicatedProps(TArray< class FLifetimeProperty >& OutLifetimeProps) const override;
+	
 };

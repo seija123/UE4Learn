@@ -36,6 +36,11 @@ void USInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void USInteractionComponent::PrimaryIneract()
 {
+	ServerPrimaryInteract();
+}
+
+void USInteractionComponent::ServerPrimaryInteract_Implementation()
+{
 	FCollisionObjectQueryParams CollisionParam;
 	CollisionParam.AddObjectTypesToQuery(ECC_WorldDynamic);
 	FVector Start;
@@ -45,11 +50,11 @@ void USInteractionComponent::PrimaryIneract()
 	APawn* OwerPawn = Cast<APawn>(GetOwner());
 	GetOwner()->GetActorEyesViewPoint(Start, StartRot);
 	End = Start + StartRot.Vector() * Length;
-	
+
 	FHitResult Hit;
 	//GetWorld()->SweepMultiByObjectType();
 	bool IsHit = GetWorld()->LineTraceSingleByObjectType(Hit, Start, End, CollisionParam);
-	
+
 	if (IsHit && Hit.GetActor()->Implements<UIGamePlayInterface>())
 	{
 		IIGamePlayInterface::Execute_Interact(Hit.GetActor(), OwerPawn);
@@ -59,5 +64,5 @@ void USInteractionComponent::PrimaryIneract()
 	DrawDebugLine(GetWorld(), Start, End, LineColor, false, 2.0f, 0, 2.0f);
 
 	DrawDebugSphere(GetWorld(), Hit.Location, 10, 32, LineColor, false, 2.0f, 0, 2.0f);
-}
 
+}

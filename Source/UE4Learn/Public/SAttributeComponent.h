@@ -37,6 +37,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool ApplyHealthModify(AActor* Instigator, float Delta);
 
+	UFUNCTION(NetMulticast, UnReliable)
+	void MulticastOnHealthChange(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);
+
 	UFUNCTION(BlueprintCallable)
 	bool IsAlive() const;
 

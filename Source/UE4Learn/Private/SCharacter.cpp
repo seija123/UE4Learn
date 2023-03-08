@@ -59,6 +59,17 @@ void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent*
 void ASCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (IsLocallyControlled())
+	{
+		UE_LOG(LogTemp, Log, TEXT("IsLocallyControlled"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("IsNotLocallyControlled"));
+	
+	}
+
 }
 
 void ASCharacter::PostInitializeComponents()
@@ -78,7 +89,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 
-	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ASCharacter::PrimaryAttack);
+	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ASCharacter::ServerPrimaryAttack);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASCharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &ASCharacter::PrimaryInteract);
 
@@ -156,13 +167,24 @@ void ASCharacter::MoveRight(float Value)
 	AddMovementInput(RightVector, Value);
 }
 
+void ASCharacter::ServerPrimaryAttack_Implementation() {
+	PrimaryAttack();
+
+}
+
 void ASCharacter::PrimaryAttack()
 {
 	//UE_LOG(LogTemp, Warning, TEXT("AHAHAHA"));
-	PlayAnimMontage(PrimaryAttackAnim);
+
+	ClientPrimaryAttack();
 
 	GetWorldTimerManager().SetTimer(PrimaryAttackDelayHandle, this, &ASCharacter::PrimaryAttackDelay, 0.2f);	
 	//GetWorldTimerManager().ClearTimer(PrimaryAttackDelayHandle);
+}
+
+void ASCharacter::ClientPrimaryAttack_Implementation()
+{
+	PlayAnimMontage(PrimaryAttackAnim);
 }
 
 void ASCharacter::PrimaryAttackDelay()

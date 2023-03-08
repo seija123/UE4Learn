@@ -27,12 +27,21 @@ public:
 	UPROPERTY(VisibleAnyWhere)
 	float TargetPitch = 110;
 
+	//UPROPERTY(Replicated, BlueprintReadOnly)
+	UPROPERTY(ReplicatedUsing = "OnRep_IsOpened", BlueprintReadOnly)
+	bool IsOpened;
+
+	UFUNCTION()
+	void OnRep_IsOpened();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps)const override;
 
 };

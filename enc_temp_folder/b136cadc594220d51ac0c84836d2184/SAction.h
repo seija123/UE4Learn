@@ -17,7 +17,6 @@ class UE4LEARN_API USAction : public UObject
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(ReplicatedUsing = "OnRep_IsRunning") //同步的数据来的时候会对比一下是否相异，如果不同的话则会调用回调函数，否则则不会。
 	bool IsRunning;
 
 public:
@@ -43,19 +42,10 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category = "Action")
 	bool CanStart(AActor* Instigator);
 
-	UFUNCTION()
-	void OnRep_IsRunning();
 
 	UFUNCTION(BlueprintCallable)
 	UWorld* GetWorld() const override;
 
 	UFUNCTION(BlueprintCallable)
 	bool GetIsRunning() const;
-
-	bool IsSupportedForNetworking() const override
-	{
-		return true;
-	};
-
-	void GetLifetimeReplicatedProps(TArray< class FLifetimeProperty >& OutLifetimeProps) const override;
 };

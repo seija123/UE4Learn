@@ -27,4 +27,8 @@ public:
 	float Length = 1000;
 
 	void PrimaryIneract();
+
+	//UFUNCTION(NetMulticast, UnReliabe)
+	UFUNCTION(Server, Reliable)
+	void ServerPrimaryInteract();
 };
