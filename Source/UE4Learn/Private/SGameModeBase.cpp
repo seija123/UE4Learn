@@ -9,12 +9,19 @@
 #include "SAttributeComponent.h"
 #include "Curves/CurveFloat.h"
 #include "SCharacter.h"
+#include "Kismet/GameplayStatics.h"
+#include "SSaveGame.h"
+#include "GameFramework/GameStateBase.h"
+#include "GameFramework/PlayerState.h"
+#include "../UE4Learn.h"
 
 static TAutoConsoleVariable<bool> IsCanSpawnBot(TEXT("su.CanSpawnBot"), true, TEXT("CanSpawnBot !!!"), ECVF_Cheat);
 
 ASGameModeBase::ASGameModeBase()
 {
 	SpawnTimerInterval = 2.0f;
+
+	SlotName = TEXT("SaveGame01");
 }
 
 void ASGameModeBase::StartPlay()
@@ -109,5 +116,60 @@ void ASGameModeBase::RespawnPlayDelay(AController* PlayerController)
 		PlayerController->UnPossess();
 
 		RestartPlayer(PlayerController);
+	}
+}
+
+
+void ASGameModeBase::LoadGame()
+{
+	if (UGameplayStatics::DoesSaveGameExist(SlotName, 0))
+	{
+		SaveGameObj = Cast<USSaveGame>(UGameplayStatics::LoadGameFromSlot(SlotName, 0));
+
+		if (SaveGameObj == nullptr)
+		{
+			UE_LOG(LogTemp, Log, TEXT("Load Game Failed !!!"));
+			return;
+		}
+		UE_LOG(LogTemp, Log, TEXT("Load Game!!!"));
+	}
+	else
+	{
+		SaveGameObj = Cast<USSaveGame>(UGameplayStatics::CreateSaveGameObject(USSaveGame::StaticClass()));
+	}
+}
+
+void ASGameModeBase::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	Super::InitGame(MapName, Options, ErrorMessage);
+
+	LoadGame();
+
+}
+
+void ASGameModeBase::SaveGame()
+{
+	for (size_t i = 0; i < GameState->PlayerArray.Num(); i++)
+	{
+		SaveGameObj->Score = Cast<ASCharacter>(GameState->PlayerArray[i]->GetPawn())->PlayerScore;
+		break;
+	}
+
+	UGameplayStatics::SaveGameToSlot(SaveGameObj, SlotName, 0);
+}
+
+void ASGameModeBase::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
+{
+	Super::HandleStartingNewPlayer_Implementation(NewPlayer);
+
+	ASCharacter* PlayerPawn = Cast<ASCharacter>(NewPlayer->GetPawn());
+
+	if (PlayerPawn != nullptr)
+	{
+		PlayerPawn->PlayerScore = SaveGameObj->Score;
+	}
+	else
+	{
+		LogOnScreen(this, TEXT("HandleStartingNewPlayer_Implementation  PlayerPawn is nullprt"));
 	}
 }

@@ -60,7 +60,7 @@ void ASCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	/*if (IsLocallyControlled())
+	if (IsLocallyControlled())
 	{
 		UE_LOG(LogTemp, Log, TEXT("IsLocallyControlled"));
 	}
@@ -68,7 +68,7 @@ void ASCharacter::Tick(float DeltaTime)
 	{
 		UE_LOG(LogTemp, Log, TEXT("IsNotLocallyControlled"));
 	
-	}*/
+	}
 
 }
 

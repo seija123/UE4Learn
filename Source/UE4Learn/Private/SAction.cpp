@@ -23,6 +23,9 @@ void USAction::StartAction_Implementation(AActor* Instigator)
 		ActionComponent->ActiveGameplayTags.AppendTags(GrantTags);
 	}
 
+	TestUnrealRpc.a += 1;
+	TestUnrealRpc.b += 1;
+
 	IsRunning = true;
 }
 
@@ -47,6 +50,14 @@ void USAction::OnRep_IsRunning()
 	LogOnScreen(this, Msg);
 }
 
+void USAction::OnRep_TestUnrealRpcStruct()
+{
+	//UE_LOG(LogTemp, Log, TEXT("OnRep_TestUnrealRpcStruct a %d b %d"), TestUnrealRpc.a, TestUnrealRpc.b);
+	FString Msg = FString::Printf(TEXT("OnRep_TestUnrealRpcStruct a %d b %d"), TestUnrealRpc.a, TestUnrealRpc.b);
+	LogOnScreen(this, Msg);
+
+}
+
 UWorld* USAction::GetWorld() const
 {
 	AActor* Actor = Cast<AActor>(GetOuter());
@@ -69,6 +80,7 @@ void USAction::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLi
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(USAction, IsRunning);
+	DOREPLIFETIME(USAction, TestUnrealRpc);
 }
 
 bool USAction::CanStart_Implementation(AActor* Instigator)

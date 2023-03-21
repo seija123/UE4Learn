@@ -8,6 +8,18 @@
 #include "SAction.generated.h"
 
 class UWorld;
+
+USTRUCT()
+struct FTestUnrealRpc
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY()
+	int a = 1;
+	UPROPERTY()
+	int b = 2;
+};
+
 /**
  * 
  */
@@ -27,6 +39,10 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	FGameplayTagContainer BlockedTags;
 
+	UPROPERTY(ReplicatedUsing = "OnRep_TestUnrealRpcStruct")
+	FTestUnrealRpc TestUnrealRpc;
+
+
 	UPROPERTY(EditDefaultsOnly, Category = "Action")
 	FName ActionName;
 
@@ -45,6 +61,9 @@ public:
 
 	UFUNCTION()
 	void OnRep_IsRunning();
+
+	UFUNCTION()
+	void OnRep_TestUnrealRpcStruct();
 
 	UFUNCTION(BlueprintCallable)
 	UWorld* GetWorld() const override;

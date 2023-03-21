@@ -10,6 +10,7 @@
 class UEnvQuery;
 class UEnvQueryInstanceBlueprintWrapper;
 class UCurveFloat;
+class USSaveGame;
 /**
  * 
  */
@@ -32,6 +33,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	UCurveFloat* DifficultyCurve;
 
+	UPROPERTY()
+	USSaveGame* SaveGameObj;
+
+	UPROPERTY()
+	FString SlotName;
+
 	FTimerHandle EQSSpawnDotTimerHandle;
 
 	UFUNCTION()
@@ -46,10 +53,20 @@ public:
 
 	virtual void StartPlay() override;
 
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
+
 	UFUNCTION(BlueprintCallable)
 	virtual void OnActorDie(AActor* Killer, AActor* Victim);
 
 	UFUNCTION()
 	void RespawnPlayDelay(AController* PlayerController);
+
+	UFUNCTION(BlueprintCallable)
+	void LoadGame();
+
+	UFUNCTION(BlueprintCallable)
+	void SaveGame();
+
+	virtual void HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer) override;
 
 };
