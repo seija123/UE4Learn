@@ -14,6 +14,8 @@
 #include "GameFramework/GameStateBase.h"
 #include "GameFramework/PlayerState.h"
 #include "../UE4Learn.h"
+#include "IPreservable.h"
+#include "Serialization/ObjectAndNameAsStringProxyArchive.h"
 
 static TAutoConsoleVariable<bool> IsCanSpawnBot(TEXT("su.CanSpawnBot"), true, TEXT("CanSpawnBot !!!"), ECVF_Cheat);
 
@@ -132,6 +134,27 @@ void ASGameModeBase::LoadGame()
 			return;
 		}
 		UE_LOG(LogTemp, Log, TEXT("Load Game!!!"));
+
+		for (FActorIterator It(GetWorld()); It; ++It)
+		{
+			AActor* Actor = *It;
+
+			if (Actor->Implements<UIPreservable>())
+			{
+				
+				FMemoryReader MemReader(SaveGameObj->ByteData);
+
+				FObjectAndNameAsStringProxyArchive ArchiveProxy(MemReader, true);
+
+				ArchiveProxy.ArIsSaveGame = true;
+
+				Actor->Serialize(ArchiveProxy); 
+
+				IIPreservable::Execute_OnActorLoaded(Actor);
+
+			}
+		}
+
 	}
 	else
 	{
@@ -154,6 +177,26 @@ void ASGameModeBase::SaveGame()
 		SaveGameObj->Score = Cast<ASCharacter>(GameState->PlayerArray[i]->GetPawn())->PlayerScore;
 		break;
 	}
+
+
+	for (FActorIterator It(GetWorld()); It; ++It)
+	{
+		AActor* Actor = *It;
+		if (Actor->Implements<UIPreservable>())
+		{
+			
+			FMemoryWriter MemWriter(SaveGameObj->ByteData);
+			//FMemoryReader MemReader(SaveGameObj->ByteData);
+
+			FObjectAndNameAsStringProxyArchive ArchiveProxy(MemWriter, true);
+			ArchiveProxy.ArIsSaveGame = true;
+
+			Actor->Serialize(ArchiveProxy);
+
+
+		}
+	}
+
 
 	UGameplayStatics::SaveGameToSlot(SaveGameObj, SlotName, 0);
 }

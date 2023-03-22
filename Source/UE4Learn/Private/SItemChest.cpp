@@ -5,6 +5,11 @@
 #include "Components/StaticMeshComponent.h"
 #include "Net/UnrealNetwork.h"
 
+void ASItemChest::OnActorLoaded_Implementation()
+{
+	OnRep_IsOpened();
+}
+
 // Sets default values
 ASItemChest::ASItemChest()
 {

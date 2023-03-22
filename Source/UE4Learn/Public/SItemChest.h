@@ -5,16 +5,19 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "IGamePlayInterface.h"
+#include "IPreservable.h"
 #include "SItemChest.generated.h"
 
 class UStaticMeshComponent;
 UCLASS()
-class UE4LEARN_API ASItemChest : public AActor, public IIGamePlayInterface
+class UE4LEARN_API ASItemChest : public AActor, public IIGamePlayInterface, public IIPreservable
 {
 	GENERATED_BODY()
 
 public:
 	void Interact_Implementation(APawn* InstigatorPawn);
+
+	void OnActorLoaded_Implementation();
 
 public:	
 	// Sets default values for this actor's properties
@@ -28,7 +31,7 @@ public:
 	float TargetPitch = 110;
 
 	//UPROPERTY(Replicated, BlueprintReadOnly)
-	UPROPERTY(ReplicatedUsing = "OnRep_IsOpened", BlueprintReadOnly)
+	UPROPERTY(ReplicatedUsing = "OnRep_IsOpened", BlueprintReadOnly, SaveGame)
 	bool IsOpened;
 
 	UFUNCTION()

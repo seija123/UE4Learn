@@ -17,5 +17,8 @@ class UE4LEARN_API USSaveGame : public USaveGame
 public:
 	UPROPERTY()
 	int Score;
+
+	UPROPERTY()
+	TArray<uint8> ByteData;
 	
 };
