@@ -15,6 +15,10 @@ class UE4LEARN_API ASPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSoftObjectPtr<UTexture2D> TestSoftRefIcon;
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UUserWidget> PauseWidgetClass;
 

@@ -5,12 +5,29 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "EnvironmentQuery/EnvQueryTypes.h"
+#include "Engine/DataTable.h"
+#include "TestPrimaryDataAsset.h"
 #include "SGameModeBase.generated.h"
 
 class UEnvQuery;
 class UEnvQueryInstanceBlueprintWrapper;
 class UCurveFloat;
 class USSaveGame;
+class UDataTable;
+
+USTRUCT(BlueprintType)
+struct FTableTest : public FTableRowBase
+{
+	GENERATED_BODY()
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int A;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UTestPrimaryDataAsset* Actor;
+};
+
 /**
  * 
  */
@@ -32,6 +49,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	UCurveFloat* DifficultyCurve;
+
+	UPROPERTY(EditDefaultsOnly)
+	UDataTable* TableCPPTest;
 
 	UPROPERTY()
 	USSaveGame* SaveGameObj;

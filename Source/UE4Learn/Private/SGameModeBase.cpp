@@ -90,7 +90,16 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 
 	if (Locations.IsValidIndex(0))
 	{
-		GetWorld()->SpawnActor<AActor>(MinionClass, Locations[0], FRotator::ZeroRotator);
+
+		if (TableCPPTest)
+		{
+			TArray<FTableTest*> Datas;
+			TableCPPTest->GetAllRows("", Datas);
+
+			GetWorld()->SpawnActor<AActor>(Datas[0]->Actor->Monster, Locations[0], FRotator::ZeroRotator);
+		}
+
+		
 	}
 }
 
