@@ -25,7 +25,7 @@ public:
 	int A;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UTestPrimaryDataAsset* Actor;
+	FPrimaryAssetId MonsterId;
 };
 
 /**
@@ -67,6 +67,8 @@ protected:
 	UFUNCTION()
 	void OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
 
+	UFUNCTION()
+	void OnLoadMonsterComplete(FPrimaryAssetId MonsterId, FVector Location);
 	
 public:
 	ASGameModeBase();

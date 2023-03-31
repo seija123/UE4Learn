@@ -16,6 +16,7 @@
 #include "../UE4Learn.h"
 #include "IPreservable.h"
 #include "Serialization/ObjectAndNameAsStringProxyArchive.h"
+#include "Engine/AssetManager.h"
 
 static TAutoConsoleVariable<bool> IsCanSpawnBot(TEXT("su.CanSpawnBot"), true, TEXT("CanSpawnBot !!!"), ECVF_Cheat);
 
@@ -78,6 +79,12 @@ void ASGameModeBase::SpawnDotTimerElapsed()
 	}
 }
 
+void ASGameModeBase::OnLoadMonsterComplete(FPrimaryAssetId MonsterId, FVector Location)
+{
+	GEngine->AssetManager->GetPrimaryAssetObject(MonsterId);
+
+}
+
 void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus)
 {
 	if (QueryStatus != EEnvQueryStatus::Success)
@@ -94,9 +101,18 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 		if (TableCPPTest)
 		{
 			TArray<FTableTest*> Datas;
-			TableCPPTest->GetAllRows("", Datas);
+			TableCPPTest->GetAllRows("SpawnMonsterTable", Datas);
 
-			GetWorld()->SpawnActor<AActor>(Datas[0]->Actor->Monster, Locations[0], FRotator::ZeroRotator);
+			UAssetManager* AssetManager = UAssetManager::GetIfValid();
+			if (AssetManager != nullptr)
+			{	
+				FStreamableDelegate OnComplete = FStreamableDelegate::CreateUObject(this, &ASGameModeBase::OnLoadMonsterComplete, Datas[0]->MonsterId, Locations[0]);
+
+				AssetManager->LoadPrimaryAsset(Datas[0]->MonsterId, TArray<FName>(), OnComplete);
+				
+			}
+
+			//GetWorld()->SpawnActor<AActor>(Datas[0]->Actor->Monster, Locations[0], FRotator::ZeroRotator);
 		}
 
 		

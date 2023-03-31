@@ -3,3 +3,9 @@
 
 #include "TestPrimaryDataAsset.h"
 
+FPrimaryAssetId UTestPrimaryDataAsset::GetPrimaryAssetId() const
+{
+    FPrimaryAssetType PrimaryAssetType(TEXT("Monster"));
+
+    return FPrimaryAssetId(PrimaryAssetType, GetFName());
+}

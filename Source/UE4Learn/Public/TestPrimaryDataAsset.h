@@ -21,4 +21,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float Health;
 	
+	virtual FPrimaryAssetId GetPrimaryAssetId() const override;
+	
 };
