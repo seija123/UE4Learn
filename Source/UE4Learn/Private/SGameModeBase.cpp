@@ -81,7 +81,9 @@ void ASGameModeBase::SpawnDotTimerElapsed()
 
 void ASGameModeBase::OnLoadMonsterComplete(FPrimaryAssetId MonsterId, FVector Location)
 {
-	GEngine->AssetManager->GetPrimaryAssetObject(MonsterId);
+	UTestPrimaryDataAsset* Minoin = Cast<UTestPrimaryDataAsset>(GEngine->AssetManager->GetPrimaryAssetObject(MonsterId));
+
+	GetWorld()->SpawnActor<AActor>(Minoin->Monster, Location, FRotator::ZeroRotator);
 
 }
 
