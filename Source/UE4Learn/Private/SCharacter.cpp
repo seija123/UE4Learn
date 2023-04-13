@@ -8,6 +8,9 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "SAttributeComponent.h"
 #include "ActionComponent.h"
+#include "AbilitySystemComponent.h"
+#include "Abilities/GameplayAbility.h"
+#include "GameplayAbility/TestAttributeSet.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -34,6 +37,10 @@ ASCharacter::ASCharacter()
 	
 	//不使用控制器的旋转Yaw，数值轴。
 	bUseControllerRotationYaw = false;
+
+	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystem");
+	AttributeSet = CreateDefaultSubobject<UTestAttributeSet>("AttributeSet");
+
 
 }
 
@@ -283,4 +290,23 @@ void ASCharacter::DelayGodFlashTeleport()
 void ASCharacter::GainScore() {
 
 	PlayerScore += 1;
+}
+
+
+UAbilitySystemComponent* ASCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystem;
+}
+
+void ASCharacter::GiveAbility(TSubclassOf<UGameplayAbility> Ability)
+{
+	if (AbilitySystem)
+	{
+		if (HasAuthority() && Ability)
+		{
+			AbilitySystem->GiveAbility(Ability);
+		}
+		AbilitySystem->InitAbilityActorInfo(this, this);
+	}
+	
 }

@@ -27,12 +27,37 @@ ASGameModeBase::ASGameModeBase()
 	SlotName = TEXT("SaveGame01");
 }
 
+void TestUE()
+{
+	TArray<int8> Nums;
+	Nums.Init(50, 5);
+
+	for (size_t i = 0; i < Nums.Num(); i++)
+	{
+		UE_LOG(LogTemp, Log, TEXT("TArray Nums index %d Value %d "), i, Nums[i]);
+
+	}
+	TArray<UObject*> Objs;
+	Objs.Add(NewObject<UObject>());
+	
+	MoveTemp(Objs);
+	//Objs.InsertUninitialized();
+	Nums.AddUninitialized(5);
+
+	for(auto Num : Nums)
+	{
+		UE_LOG(LogTemp, Log, TEXT("TArray Nums %d"), Num);
+	}
+
+}
+
 void ASGameModeBase::StartPlay()
 {
 	Super::StartPlay();
 
 	GetWorldTimerManager().SetTimer(EQSSpawnDotTimerHandle, this, &ASGameModeBase::SpawnDotTimerElapsed ,SpawnTimerInterval, true);
 
+	TestUE();
 }
 
 
@@ -83,7 +108,15 @@ void ASGameModeBase::OnLoadMonsterComplete(FPrimaryAssetId MonsterId, FVector Lo
 {
 	UTestPrimaryDataAsset* Minoin = Cast<UTestPrimaryDataAsset>(GEngine->AssetManager->GetPrimaryAssetObject(MonsterId));
 
-	GetWorld()->SpawnActor<AActor>(Minoin->Monster, Location, FRotator::ZeroRotator);
+	if (Minoin && Minoin->Monster)
+	{	
+		GetWorld()->SpawnActor<AActor>(Minoin->Monster, Location, FRotator::ZeroRotator);
+	}
+	else
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("[ASGameModeBase::OnLoadMonsterComplete] Minoin->Monster is Null"));
+	}
+	
 
 }
 

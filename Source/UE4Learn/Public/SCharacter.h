@@ -8,7 +8,9 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameplayTagAssetInterface.h"
 #include "GameplayTagContainer.h"
+#include "AbilitySystemInterface.h"
 #include "SCharacter.generated.h"
+
 
 class UCameraComponent;
 class USpringArmComponent;
@@ -18,9 +20,12 @@ class ABlackHole;
 class USAttributeComponent;
 class UActionComponent;
 class USAction;
+class UAbilitySystemComponent;
+class UGameplayAbility;
+class UTestAttributeSet;
 
 UCLASS()
-class UE4LEARN_API ASCharacter : public ACharacter, public IGameplayTagAssetInterface
+class UE4LEARN_API ASCharacter : public ACharacter, public IGameplayTagAssetInterface, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 public:
@@ -62,6 +67,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UActionComponent* ActionComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAbilitySystemComponent* AbilitySystem;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UTestAttributeSet* AttributeSet;
 
 
 	FTimerHandle PrimaryAttackDelayHandle;
@@ -130,4 +141,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void GainScore();
+
+	// Í¨¹ý IAbilitySystemInterface ¼Ì³Ð
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	UFUNCTION()
+	void GiveAbility(TSubclassOf<UGameplayAbility> Ability);
 };
