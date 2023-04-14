@@ -12,6 +12,7 @@
 #include "Abilities/GameplayAbility.h"
 #include "GameplayAbility/TestAttributeSet.h"
 
+
 // Sets default values
 ASCharacter::ASCharacter()
 {
@@ -41,6 +42,11 @@ ASCharacter::ASCharacter()
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystem");
 	AttributeSet = CreateDefaultSubobject<UTestAttributeSet>("AttributeSet");
 
+	if (AbilitySystem)
+	{
+		AbilitySystem->GetGameplayAttributeValueChangeDelegate(UTestAttributeSet::GetLifeAttribute())
+			.AddUObject(this, &ASCharacter::OnHealthAttributeChanged);
+	}
 
 }
 
@@ -309,4 +315,10 @@ void ASCharacter::GiveAbility(TSubclassOf<UGameplayAbility> Ability)
 		AbilitySystem->InitAbilityActorInfo(this, this);
 	}
 	
+}
+
+
+void ASCharacter::OnHealthAttributeChanged(const FOnAttributeChangeData& Data) 
+{
+	OnGASHealthChanged.Broadcast(Data.NewValue);
 }

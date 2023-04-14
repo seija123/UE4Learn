@@ -5,5 +5,7 @@
 
 UTestAttributeSet::UTestAttributeSet() :
 	Life(100.f),
-	MaxLife(100.f)
+	MaxLife(100.f),
+	Mana(100.f),
+	ManaMax(100.f)
 {}

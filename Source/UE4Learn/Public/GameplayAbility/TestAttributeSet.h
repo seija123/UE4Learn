@@ -33,6 +33,13 @@ public:
 	FGameplayAttributeData MaxLife;
 	ATTRIBUTE_ACCESSORS(UTestAttributeSet, MaxLife);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayAttributeData Mana;
+	ATTRIBUTE_ACCESSORS(UTestAttributeSet, Mana);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayAttributeData ManaMax;
+	ATTRIBUTE_ACCESSORS(UTestAttributeSet, ManaMax);
 
 
 };

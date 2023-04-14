@@ -9,6 +9,7 @@
 #include "GameplayTagAssetInterface.h"
 #include "GameplayTagContainer.h"
 #include "AbilitySystemInterface.h"
+#include "GameplayEffectTypes.h"
 #include "SCharacter.generated.h"
 
 
@@ -23,6 +24,8 @@ class USAction;
 class UAbilitySystemComponent;
 class UGameplayAbility;
 class UTestAttributeSet;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGASHealthChanged, float, NewHealth);
 
 UCLASS()
 class UE4LEARN_API ASCharacter : public ACharacter, public IGameplayTagAssetInterface, public IAbilitySystemInterface
@@ -80,6 +83,11 @@ protected:
 	FTimerHandle BlackHoleAttackTimer;
 
 	FTimerHandle GodFlashTimer;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnGASHealthChanged OnGASHealthChanged;
+
+	void OnHealthAttributeChanged(const FOnAttributeChangeData& Data);
 
 	void MoveForward(float Value);
 
@@ -145,6 +153,6 @@ public:
 	// Í¨¹ý IAbilitySystemInterface ¼Ì³Ð
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void GiveAbility(TSubclassOf<UGameplayAbility> Ability);
 };
