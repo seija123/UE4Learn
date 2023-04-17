@@ -41,5 +41,14 @@ public:
 	FGameplayAttributeData ManaMax;
 	ATTRIBUTE_ACCESSORS(UTestAttributeSet, ManaMax);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayAttributeData Speed;
+	ATTRIBUTE_ACCESSORS(UTestAttributeSet, Speed);
+
+	//FGameplayAttributeData 的CurrentValue做限制， 在Infinite 或 HasDuration 中会修改CurrentValue。 所以这时可以用这个对属性进行限定。
+	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
+
+	//对BaseValue进行限制， GE会在Instant 时修改 BaseValue。所以这时可以用这个对属性进行限定。 
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 
 };

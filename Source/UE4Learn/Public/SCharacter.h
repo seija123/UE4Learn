@@ -26,6 +26,7 @@ class UGameplayAbility;
 class UTestAttributeSet;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGASHealthChanged, float, NewHealth);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGASSpeedChanged, float, NewSpeed);
 
 UCLASS()
 class UE4LEARN_API ASCharacter : public ACharacter, public IGameplayTagAssetInterface, public IAbilitySystemInterface
@@ -63,7 +64,7 @@ protected:
 	USInteractionComponent* InteractionComponent;
 
 	UPROPERTY(EditAnywhere)
-	UAnimMontage* PrimaryAttackAnim;
+	UAnimMontage* PrimaryAttackAnim; 
 
 	UPROPERTY(EditAnyWhere)
 	FGameplayTagContainer GameplayTagList;
@@ -77,6 +78,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UTestAttributeSet* AttributeSet;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnGASSpeedChanged OnGASSpeedChanged;
+
+	void OnSpeedAttributeChanged(const FOnAttributeChangeData& Data);
 
 	FTimerHandle PrimaryAttackDelayHandle;
 

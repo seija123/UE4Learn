@@ -46,6 +46,9 @@ ASCharacter::ASCharacter()
 	{
 		AbilitySystem->GetGameplayAttributeValueChangeDelegate(UTestAttributeSet::GetLifeAttribute())
 			.AddUObject(this, &ASCharacter::OnHealthAttributeChanged);
+
+		AbilitySystem->GetGameplayAttributeValueChangeDelegate(UTestAttributeSet::GetSpeedAttribute())
+			.AddUObject(this, &ASCharacter::OnSpeedAttributeChanged);
 	}
 
 }
@@ -318,7 +321,12 @@ void ASCharacter::GiveAbility(TSubclassOf<UGameplayAbility> Ability)
 }
 
 
-void ASCharacter::OnHealthAttributeChanged(const FOnAttributeChangeData& Data) 
+void ASCharacter::OnSpeedAttributeChanged(const FOnAttributeChangeData& Data)
+{
+	OnGASSpeedChanged.Broadcast(Data.NewValue);
+}
+
+void ASCharacter::OnHealthAttributeChanged(const FOnAttributeChangeData& Data)
 {
 	OnGASHealthChanged.Broadcast(Data.NewValue);
 }
