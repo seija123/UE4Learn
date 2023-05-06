@@ -1,0 +1,16 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-LuaRapidjson.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:\UE4SourceCode\Engine\Intermediate\Build\Win64\UE4Editor\Development\Engine\SharedPCH.Engine.ShadowErrors.NoUndef.h.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaRapidjson\Intermediate\Build\Win64\UE4Editor\Development\LuaRapidjson\LuaRapidjsonModule.cpp.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaRapidjson\Intermediate\Build\Win64\UE4Editor\Development\LuaRapidjson\Document.cpp.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaRapidjson\Intermediate\Build\Win64\UE4Editor\Development\LuaRapidjson\rapidjson.cpp.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaRapidjson\Intermediate\Build\Win64\UE4Editor\Development\LuaRapidjson\Schema.cpp.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaRapidjson\Intermediate\Build\Win64\UE4Editor\Development\LuaRapidjson\values.cpp.obj"
+"D:\UE4SourceCode\Engine\Intermediate\Build\Win64\UE4Editor\Development\Default.rc2.res"
+/OUT:"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaRapidjson\Intermediate\Build\Win64\UE4Editor\Development\LuaRapidjson\UE4Editor-LuaRapidjson.lib"

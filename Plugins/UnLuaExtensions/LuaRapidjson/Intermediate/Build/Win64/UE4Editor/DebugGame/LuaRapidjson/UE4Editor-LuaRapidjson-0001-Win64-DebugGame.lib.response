@@ -1,0 +1,16 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-LuaRapidjson-0001-Win64-DebugGame.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:\LearnUE4Project\UE4Learn\Intermediate\Build\Win64\UE4LearnEditor\DebugGame\Engine\SharedPCH.Engine.NonOptimized.ShadowErrors.NoUndef.h.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaRapidjson\Intermediate\Build\Win64\UE4Editor\DebugGame\LuaRapidjson\LuaRapidjsonModule.cpp.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaRapidjson\Intermediate\Build\Win64\UE4Editor\DebugGame\LuaRapidjson\Document.cpp.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaRapidjson\Intermediate\Build\Win64\UE4Editor\DebugGame\LuaRapidjson\rapidjson.cpp.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaRapidjson\Intermediate\Build\Win64\UE4Editor\DebugGame\LuaRapidjson\Schema.cpp.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaRapidjson\Intermediate\Build\Win64\UE4Editor\DebugGame\LuaRapidjson\values.cpp.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaRapidjson\Intermediate\Build\Win64\UE4Editor\DebugGame\LuaRapidjson\Default.rc2.res"
+/OUT:"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaRapidjson\Intermediate\Build\Win64\UE4Editor\DebugGame\LuaRapidjson\UE4Editor-LuaRapidjson-0001-Win64-DebugGame.lib"

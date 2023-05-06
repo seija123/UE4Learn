@@ -38,7 +38,7 @@ void TestUE()
 
 	}
 	TArray<UObject*> Objs;
-	Objs.Add(NewObject<UObject>());
+	//Objs.Add(NewObject<UObject>());
 	
 	MoveTemp(Objs);
 	//Objs.InsertUninitialized();

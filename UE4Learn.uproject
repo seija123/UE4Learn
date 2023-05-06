@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.27",
+	"EngineAssociation": "{59503C8F-43A2-EE84-A75A-D285BA159E24}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -20,6 +20,10 @@
 	"Plugins": [
 		{
 			"Name": "GameplayAbilities",
+			"Enabled": true
+		},
+		{
+			"Name": "EditorScriptingUtilities",
 			"Enabled": true
 		}
 	]

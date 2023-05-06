@@ -1,0 +1,13 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-LuaProtobuf-Win64-DebugGame.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:\LearnUE4Project\UE4Learn\Intermediate\Build\Win64\UE4LearnEditor\DebugGame\Engine\SharedPCH.Engine.NonOptimized.ShadowErrors.NoUndef.h.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaProtobuf\Intermediate\Build\Win64\UE4Editor\DebugGame\LuaProtobuf\LuaProtobufModule.cpp.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaProtobuf\Intermediate\Build\Win64\UE4Editor\DebugGame\LuaProtobuf\pb.cpp.obj"
+"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaProtobuf\Intermediate\Build\Win64\UE4Editor\DebugGame\LuaProtobuf\Default.rc2.res"
+/OUT:"D:\LearnUE4Project\UE4Learn\Plugins\UnLuaExtensions\LuaProtobuf\Intermediate\Build\Win64\UE4Editor\DebugGame\LuaProtobuf\UE4Editor-LuaProtobuf-Win64-DebugGame.lib"
